@@ -75,10 +75,54 @@ function edit(req,res) {
   })
 }
 
+function update(req,res){
+  Taco.findById(req.params.id)
+  .then(taco => {
+    if(taco.owner.equals(req.user.profile._id)) {
+      // the person that created the taco is trying to edit the taco
+      req.body.tasty = !!req.body.tasty
+      taco.updateOne(req.body, {new: true})
+      .then(() => {
+        // without new: true will be the OLD (not updated) taco
+        // with new: true taco will be the new (updated) taco
+        res.redirect(`/tacos/${taco._id}`)
+      })
+    } else {
+      // the person trying to edit the taco is not the person who created the taco
+      throw new Error ('🚫 Not authorized 🚫')
+    }
+    })
+    .catch(err => {
+      console.log(err)
+      res.redirect('/tacos')
+    })
+}
+
+function deleteTaco(req, res) {
+  Taco.findById(req.params.id)
+  .then(taco => {
+    if (taco.owner.equals(req.user.profile._id)) {
+      taco.delete()
+      .then(() => {
+        res.redirect('/tacos')
+      })
+    } else {
+      // the person that created the taco is NOT the person trying to delte the taco
+      throw new Error ('🚫 Not authorized 🚫')
+    }
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/tacos')
+  })
+}
+
 export {
   index,
   create,
   show,
   flipTasty,
-  edit
+  edit,
+  update,
+  deleteTaco as delete
 }

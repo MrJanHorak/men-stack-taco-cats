@@ -11,6 +11,8 @@ router.post('/', isLoggedIn, tacosCtrl.create)
 
 // localhost:3000/tacos/:id/flip-tasty
 router.patch("/:id/flip-tasty", isLoggedIn, tacosCtrl.flipTasty)
+router.put('/:id', isLoggedIn, tacosCtrl.update)
+router.delete('/:id', isLoggedIn, tacosCtrl.delete)
 
 export {
   router
