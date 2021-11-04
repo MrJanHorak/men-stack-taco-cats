@@ -6,6 +6,7 @@ const router = Router()
 
 router.get('/' ,isLoggedIn, tacosCtrl.index)
 router.get('/:id', tacosCtrl.show)
+router.get('/:id/edit', isLoggedIn, tacosCtrl.edit)
 router.post('/', isLoggedIn, tacosCtrl.create)
 
 // localhost:3000/tacos/:id/flip-tasty
