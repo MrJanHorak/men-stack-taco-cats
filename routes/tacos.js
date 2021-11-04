@@ -8,6 +8,9 @@ router.get('/' ,isLoggedIn, tacosCtrl.index)
 router.get('/:id', tacosCtrl.show)
 router.post('/', isLoggedIn, tacosCtrl.create)
 
+// localhost:3000/tacos/:id/flip-tasty
+router.patch("/:id/flip-tasty", isLoggedIn, tacosCtrl.flipTasty)
+
 export {
   router
 }
